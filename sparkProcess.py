@@ -19,3 +19,10 @@ def return_sql_context_instance(spark_context):
     if ('sqlContextSingletonInstance' not in globals()):
         globals()['sqlContextSingletonInstance'] = SQLContext(spark_context)
     return globals()['sqlContextSingletonInstance']
+
+def stream_dataframe_to_flask(df):
+    top_tags = [str(t.tag) for t in df.select("tag").collect()]
+    tags_count = [p.counts for p in df.select("count").collect()]
+    url = 'http://0.0.0.0:5050/updateData'
+    request_data = {'words': str(top_tags), 'counts': str(tags_count)}
+    response = requests.post(url, data=request_data)
