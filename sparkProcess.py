@@ -41,3 +41,11 @@ def process_rdd(time, rdd):
     except:
         e = sys.exc_info()[0]
         print("Error: %s" % e)
+
+words = dataStream.flatMap(lambda line: line.split(" "))
+hashtags = words.filter(lambda w: '#' in w).map(lambda x: (x, 1))
+# hashtags = words.filter(lambda w: '@' in w).map(lambda x: (x, 1)) # process email count in tweets
+tags_totals = hashtags.updateStateByKey(sumup_tags_counts)
+tags_totals.foreachRDD(process_rdd)
+ssc.start()
+ssc.awaitTermination()
