@@ -4,11 +4,11 @@ import requests
 import requests_oauthlib
 import json
 
-ACCESS_TOKEN = 2189785537-IGviQNpzHFNQkW1ACwppgEn1s7Fi1wQYUBOZJUe
-ACCESS_SECRET = cnR1LJSMbA6Bl1XTqs7WE0vWCYzfSEIJLAbFOFG2gapjH
-CONSUMER_KEY = BgBYUoaZMFlrhjMEbsCtPjmnR
-CONSUMER_SECRET = mEQsxzxnEShZrmZ941z899jCFvhOkap01Srdnry17CxsDL4bRf
-twitter_auth = requests_oauthlib.OAuth1(BgBYUoaZMFlrhjMEbsCtPjmnR, mEQsxzxnEShZrmZ941z899jCFvhOkap01Srdnry17CxsDL4bRf,2189785537-IGviQNpzHFNQkW1ACwppgEn1s7Fi1wQYUBOZJUe, cnR1LJSMbA6Bl1XTqs7WE0vWCYzfSEIJLAbFOFG2gapjH)
+ACCESS_TOKEN = '2189785537-McA5ouuJxCxmLvKX2tW5OjGdbUfkvwclvJ8rjq5'
+ACCESS_SECRET = 'UoCmc8rtnEaGNP7q0PN1fh7mxs7SWohQTeYP2pjqevZnS'
+CONSUMER_KEY = 'BgBYUoaZMFlrhjMEbsCtPjmnR'
+CONSUMER_SECRET = 'mEQsxzxnEShZrmZ941z899jCFvhOkap01Srdnry17CxsDL4bRf'
+twitter_auth = requests_oauthlib.OAuth1(CONSUMER_KEY, CONSUMER_SECRET,ACCESS_TOKEN, ACCESS_SECRET)
 
 def streamTweets():
     url = 'https://stream.twitter.com/1.1/statuses/filter.json'
