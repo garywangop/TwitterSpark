@@ -26,3 +26,18 @@ def stream_dataframe_to_flask(df):
     url = 'http://0.0.0.0:5050/updateData'
     request_data = {'words': str(top_tags), 'counts': str(tags_count)}
     response = requests.post(url, data=request_data)
+
+def process_rdd(time, rdd):
+    print("------------- %s --------------" % str(time))
+    try:
+        sql_context_instance = return_sql_context_instance(rdd.context)
+        row_rdd = rdd.map(lambda w: Row(tag=w[0], counts=w[1]))
+        print(row_rdd)
+        tags_counts_df = sql_context_instance.createDataFrame(row_rdd)
+        tags_counts_df.registerTempTable("tag_with_counts")
+        selected_tags_counts_df = sql_context_instance.sql("select tag, counts from tag_with_counts order by counts desc limit 8")
+        selected_tags_counts_df.show()
+        # stream_dataframe_to_flask(selected_tags_counts_df)
+    except:
+        e = sys.exc_info()[0]
+        print("Error: %s" % e)
