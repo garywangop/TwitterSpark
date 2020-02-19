@@ -14,3 +14,8 @@ dataStream = ssc.socketTextStream("localhost",9090)
 
 def sumup_tags_counts(new_values, total_sum):
     return (total_sum or 0) + sum(new_values)
+
+def return_sql_context_instance(spark_context):
+    if ('sqlContextSingletonInstance' not in globals()):
+        globals()['sqlContextSingletonInstance'] = SQLContext(spark_context)
+    return globals()['sqlContextSingletonInstance']
