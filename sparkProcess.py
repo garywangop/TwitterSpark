@@ -22,7 +22,7 @@ def return_sql_context_instance(spark_context):
 
 def stream_dataframe_to_flask(df):
     top_tags = [str(t.tag) for t in df.select("tag").collect()]
-    tags_count = [p.counts for p in df.select("count").collect()]
+    tags_count = [p.counts for p in df.select("counts").collect()]
     url = 'http://0.0.0.0:5050/updateData'
     request_data = {'words': str(top_tags), 'counts': str(tags_count)}
     response = requests.post(url, data=request_data)
@@ -37,7 +37,7 @@ def process_rdd(time, rdd):
         tags_counts_df.registerTempTable("tag_with_counts")
         selected_tags_counts_df = sql_context_instance.sql("select tag, counts from tag_with_counts order by counts desc limit 8")
         selected_tags_counts_df.show()
-        # stream_dataframe_to_flask(selected_tags_counts_df)
+        stream_dataframe_to_flask(selected_tags_counts_df)
     except:
         e = sys.exc_info()[0]
         print("Error: %s" % e)
